@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "Sentry Trace",
+  "version": "1.0",
+
+  "description": "Easily get to your sentry events",
+
+  "icons": {
+    "96": "icons/sentry-96.png"
+  },
+
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": {
+      "96": "icons/sentry-96.png"
+    },
+    "default_title": "Sentry Trace",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["sentry-background.js"]
+  },
+
+  "permissions": ["storage"],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.getsentry.net/*", "*://*.sentry.io/*"],
+      "js": ["sentry-content.js"]
+    }
+  ]
+
+}

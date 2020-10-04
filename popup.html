@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css"/>
+  </head>
+
+<body>
+  <div class="button-container">
+    Traces
+    <button id="clear-traces"><span>Clear Traces</span></button>
+  </div>
+  <div class="container">
+    <table style="grid-template-columns: minmax(90px, auto) minmax(90px, auto) minmax(90px, auto);">
+      <thead>
+        <tr>
+          <th>Transaction</th>
+          <th>Environment</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="popup-content">
+      </tbody>
+    </table>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>
