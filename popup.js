@@ -17,7 +17,7 @@ function onOpen() {
     const content = document.getElementById("popup-content");
     content.innerHTML = "";
     for (const element of data.transactions) {
-      const env = element.host === "dev.getsentry.net" ? "local" : "prod"
+      const env = element.host.includes("dev.getsentry.net") ? "local" : "prod"
       start = encodeURIComponent(formatDateParam(new Date(Number(element.date) - (5*60*1000))));
       end = encodeURIComponent(formatDateParam(new Date(Number(element.date) + (5*60*1000))));
       url = `${ENV[env].root_url}organizations/sentry/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&name=Transactions+by+Volume&query=trace%3A${element.traceId}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
