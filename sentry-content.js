@@ -1,5 +1,5 @@
 let traceId = null;
-setInterval(function () {
+browser.runtime.onMessage.addListener(function () {
   try {
     Hub = window.wrappedJSObject.Sentry.getCurrentHub();
     transaction = Hub.getScope().getTransaction();
@@ -23,4 +23,4 @@ setInterval(function () {
     }
   } catch (exc) {
   }
-}, 1000);
+});

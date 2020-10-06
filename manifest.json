@@ -22,7 +22,7 @@
     "scripts": ["sentry-background.js"]
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "webNavigation"],
 
   "content_scripts": [
     {
