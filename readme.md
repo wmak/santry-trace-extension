@@ -7,5 +7,9 @@ Will keep up to 50 traces
 2. Click *Load Temporary Add-on*
 3. Select the `manifest.json` from this repo
 
+## To Update
+1. Go back to about:debugging#/runtime/this-firefox
+2. Click reload
+
 ## Preview
 <img width="734" alt="image" src="https://i.imgur.com/IKOZy1k.png">
