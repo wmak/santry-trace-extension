@@ -1,6 +1,5 @@
 # Santry-trace-extension
-A little addon that tracks all your local/prod traces, only compatible with firefox for now
-Will keep up to 50 traces
+A little addon that tracks all your personal traces, will keep up to 50 traces
 
 ## Preview
 <img width="700" alt="preview" src="https://i.imgur.com/IKOZy1k.png">
