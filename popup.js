@@ -36,7 +36,7 @@ function onOpen() {
 }
 onOpen();
 document.getElementById("clear-traces").onclick = function clearTrace() {
-  browser.storage.local.clear().then(function () {
+  browser.storage.local.set({"transactions": []}).then(function () {
     browser.runtime.sendMessage(0);
     onOpen();
   });

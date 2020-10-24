@@ -23,9 +23,8 @@ function updateBadge(length) {
     browser.browserAction.setBadgeText({text: ""});
   }
 }
-localget(["transactions"], function(data) {
-  updateBadge(data.transactions.length);
-});
+localget(["transactions"], (data) => updateBadge(data.transactions.length));
+browser.runtime.onMessage.addListener((length, sender) => updateBadge(length))
 
 function listener(event) {
   const decoder = new TextDecoder("utf-8");
