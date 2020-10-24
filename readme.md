@@ -2,7 +2,7 @@
 A little addon that tracks all your personal traces, will keep up to 50 traces
 
 ## Preview
-<img width="700" alt="preview" src="https://i.imgur.com/IKOZy1k.png">
+<img width="700" alt="preview" src="https://i.imgur.com/g9sg3K6.png>
 
 ## To Install
 
