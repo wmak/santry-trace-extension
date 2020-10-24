@@ -1,3 +1,10 @@
+try {
+  browser;
+  localget = (keys, promise) => browser.storage.local.get(keys).then(promise);
+} catch (ex) {
+  browser = chrome;
+  localget = (keys, promise) => browser.storage.local.get(keys, promise);
+}
 const slug = document.getElementById("slug");
 const prodRegex = document.getElementById("prodRegex");
 const stagingRegex = document.getElementById("stagingRegex");
@@ -10,12 +17,8 @@ prodRegex.addEventListener('change', (event) => {
 stagingRegex.addEventListener('change', (event) => {
   browser.storage.local.set({"stagingRegex": event.target.value})
 });
-browser.storage.local.get("slug").then(function(data) {
+localget(["slug", "prodRegex", "stagingRegex"], function(data) {
   slug.value = data?.slug || "";
-});
-browser.storage.local.get("prodRegex").then(function(data) {
   prodRegex.value = data?.prodRegex || "";
-});
-browser.storage.local.get("stagingRegex").then(function(data) {
   stagingRegex.value = data?.stagingRegex || "";
 });

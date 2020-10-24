@@ -1,3 +1,10 @@
+try {
+  browser;
+  localget = (keys, promise) => browser.storage.local.get(keys).then(promise);
+} catch (ex) {
+  browser = chrome;
+  localget = (keys, promise) => browser.storage.local.get(keys, promise);
+}
 ENV = {
   dev: {
     root_url: "http://dev.getsentry.net:8000/"
@@ -13,7 +20,7 @@ function formatDateParam(date) {
   return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:00`
 }
 function onOpen() {
-  browser.storage.local.get(["transactions", "slug"]).then(function(data) {
+  localget(["transactions", "slug"], function(data) {
     const content = document.getElementById("popup-content");
     content.innerHTML = "";
     for (const element of data.transactions) {
