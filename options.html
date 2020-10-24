@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css"/>
+  </head>
+
+  <body style="background-color: #202023; color: #f9f9fa">
+    <div id="General" class="Panel">
+      <div class="PanelHeader">
+        Environment variables
+      </div>
+      <div class="Flexbox">
+        <div class="FieldWrapper">
+          <label class="FieldDescription" for="prod">
+            <div class="FieldLabel">
+              <span>Organization Slug</span>
+            </div>
+            <div class="FieldHelp">
+              Used to link back to sentry
+            </div>
+          </label>
+          <div class="FieldControl">
+            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+          </div>
+        </div>
+        <div class="FieldWrapper">
+          <label class="FieldDescription" for="prod">
+            <div class="FieldLabel">
+              <span>Production DSN</span>
+            </div>
+            <div class="FieldHelp">
+              The DSN of your production environment
+            </div>
+          </label>
+          <div class="FieldControl">
+            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+          </div>
+        </div>
+        <div class="FieldWrapper">
+          <label class="FieldDescription" for="prod">
+            <div class="FieldLabel">
+              <span>Local DSN</span>
+            </div>
+            <div class="FieldHelp">
+              The DSN of your local environment
+            </div>
+          </label>
+          <div class="FieldControl">
+            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="options.js"></script>
+
+  </body>
+
+</html>

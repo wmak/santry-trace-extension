@@ -17,3 +17,12 @@ try {
   });
 } catch (exc) {
 }
+browser.webRequest.onBeforeRequest.addListener(
+  function (event) {
+    var decoder = new TextDecoder("utf-8");
+    var rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
+    console.log(event.requestBody.raw);
+  },
+  {urls: ["*://*.sentry.io/*/envelope/*"]},
+  ["requestBody"]
+);
