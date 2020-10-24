@@ -8,6 +8,7 @@ table {
   display: grid;
   box-sizing: border-box;
   border-collapse: collapse;
+  border-radius: 4px;
   margin: 0px;
   z-index: 5;
   overflow-x scroll;
@@ -93,3 +94,26 @@ button span {
   justify-content: space-between;
   margin-bottom: 16px;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1D1127;
+    color: #FFFFFF;
+  }
+
+  thead tr th {
+    background-color: #2B1D38;
+    border: 1px solid #776589;
+    color: #776589;
+  }
+
+  tbody tr td {
+    background-color: #1D1127;
+    color: #FFFFFF;
+  }
+
+  a {
+    color: #A396DA;
+  }
+}
+

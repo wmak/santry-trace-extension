@@ -1,7 +1,10 @@
+body {
+}
+
 .Panel {
   border-radius: 4px;
-  border: 1px solid #776589;
-  background: #1D1127;
+  border: 1px solid #C6BECF;
+  background: #FFFFFF;
   margin-bottom: 20px;
   margin-top: 20px;
   position: relative;
@@ -14,8 +17,8 @@
   color: #776589;
   font-size: 13px;
   font-weight: 600;
-  border-bottom: 1px solid #776589;
-  background: #2B1D38 none repeat scroll;
+  border-bottom: 1px solid #C6BECF;
+  background: #FAF9FB; none repeat scroll;
   line-height: 1;
   position: relative;
   padding: 16px;
@@ -46,6 +49,7 @@
 .FieldLabel {
   font-size: 16px;
   display: grid;
+  color: #2B1D38;
   gap: 4px;
   grid-template-columns: repeat(2, max-content);
   line-height: 16px;
@@ -55,6 +59,7 @@
   font-size: 14px;
   margin-top: 8px;
   line-height: 1.4;
+  color: #9386A0;
 }
 
 .FieldControl {
@@ -76,7 +81,7 @@
   box-sizing: border-box;
   padding: 0.5em;
   resize: vertical;
-  background: #1D1127;
+  background: #FFFFFF;
   color: #C6BECF;
 }
 
@@ -84,4 +89,42 @@
   border: 1px solid #C6BECF;
   box-shadow: inset 0px 2px 1px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #202023;
+    color: #f9f9fa;
+  }
+
+  .Panel {
+    background: #1D1127;
+    border: 1px solid #776589;
+  }
+
+  .PanelHeader {
+    background-color: #2B1D38;
+    color: #776589;
+    border-bottom: 1px solid #776589;
+  }
+
+  .FieldLabel {
+    color: #FFFFFF;
+  }
+
+  .FieldWrapper {
+    border-bottom: 1px solid #776589;
+  }
+
+  .Input {
+    border: 1px solid rgb(198, 190, 207);
+    box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px inset;
+    background: #1D1127;
+    color: #C6BECF;
+  }
+
+  .Input:focus {
+    border: 1px solid #C6BECF;
+    box-shadow: inset 0px 2px 1px rgba(0, 0, 0, 0.05);
+  }
 }
