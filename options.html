@@ -18,37 +18,37 @@
               <span>Organization Slug</span>
             </div>
             <div class="FieldHelp">
-              Used to link back to sentry
+              Used when linking into sentry
             </div>
           </label>
           <div class="FieldControl">
-            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+            <input id="slug" class="Input" type="text" label="slug" name="slug"/>
           </div>
         </div>
         <div class="FieldWrapper">
           <label class="FieldDescription" for="prod">
             <div class="FieldLabel">
-              <span>Production DSN</span>
+              <span>Production Regex</span>
             </div>
             <div class="FieldHelp">
-              The DSN of your production environment
+	      Regex for Production URLs
             </div>
           </label>
           <div class="FieldControl">
-            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+            <input id="prodRegex" class="Input" type="text" label="production regex" name="prodRegex"/>
           </div>
         </div>
         <div class="FieldWrapper">
           <label class="FieldDescription" for="prod">
             <div class="FieldLabel">
-              <span>Local DSN</span>
+              <span>Staging Regex</span>
             </div>
             <div class="FieldHelp">
-              The DSN of your local environment
+	      Regex for Staging URLs
             </div>
           </label>
           <div class="FieldControl">
-            <input id="slug" class="Input" type="text" label="production" name="slug"/>
+            <input id="stagingRegex" class="Input" type="text" label="staging regex" name="stagingRegex"/>
           </div>
         </div>
       </div>

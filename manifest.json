@@ -22,14 +22,7 @@
     "scripts": ["sentry-background.js"]
   },
 
-  "permissions": ["storage", "webNavigation", "webRequest", "*://sentry.io/*"],
-
-  "content_scripts": [
-    {
-      "matches": ["*://*.getsentry.net/*", "*://*.sentry.io/*"],
-      "js": ["sentry-content.js"]
-    }
-  ],
+  "permissions": ["storage", "webNavigation", "webRequest", "*://*/*"],
 
   "options_ui": {
     "page": "options.html"

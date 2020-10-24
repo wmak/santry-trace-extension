@@ -1,6 +1,7 @@
 .Panel {
   border-radius: 4px;
-  border: 1px solid rgb(198, 190, 207);
+  border: 1px solid #776589;
+  background: #1D1127;
   margin-bottom: 20px;
   margin-top: 20px;
   position: relative;
@@ -10,11 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgb(250, 249, 251);
+  color: #776589;
   font-size: 13px;
   font-weight: 600;
-  border-bottom: 1px solid rgb(198, 190, 207);
-  background: rgb(100, 85, 116) none repeat scroll;
+  border-bottom: 1px solid #776589;
+  background: #2B1D38 none repeat scroll;
   line-height: 1;
   position: relative;
   padding: 16px;
@@ -31,7 +32,7 @@
   padding: 16px 0px 16px 16px;
   align-items: center;
   display: flex;
-  border-bottom: 1px solid rgb(231, 225, 236);
+  border-bottom: 1px solid #776589;
 }
 
 .FieldDescription {
@@ -74,4 +75,13 @@
   box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px inset;
   padding: 0.5em;
   resize: vertical;
+  background: #1D1127;
+  color: #C6BECF;
+}
+
+.Input:focus {
+  border: 1px solid #C6BECF;
+  box-sizing: border-box;
+  box-shadow: inset 0px 2px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
