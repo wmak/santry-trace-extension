@@ -34,7 +34,7 @@ function listener(event) {
   let newTraceId = sentryEvent?.contexts?.trace?.trace_id;
   localget(["transactions", "prodRegex", "stagingRegex"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    sentryEvent.isValid = url.match(new RegExp(data.prodRegex)) || url.match(new RegExp(data.stagingRegex));
+    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingregex ? url.match(new RegExp(data.stagingRegex)) : false);
     sentryEvent.isLocal = url.match(new RegExp(DEV_REGEX));
 
     if (sentryEvent.isValid || sentryEvent.isLocal) {

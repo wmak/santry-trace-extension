@@ -18,7 +18,7 @@ stagingRegex.addEventListener('change', (event) => {
   browser.storage.local.set({"stagingRegex": event.target.value})
 });
 localget(["slug", "prodRegex", "stagingRegex"], function(data) {
-  slug.value = data?.slug || "";
-  prodRegex.value = data?.prodRegex || "";
-  stagingRegex.value = data?.stagingRegex || "";
+  slug.value = data?.slug || null;
+  prodRegex.value = data?.prodRegex || null;
+  stagingRegex.value = data?.stagingRegex || null;
 });
