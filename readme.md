@@ -1,9 +1,8 @@
 # Santry-trace-extension
-A little addon that tracks all your local/prod traces, only compatible with firefox for now
-Will keep up to 50 traces
+A little addon that tracks all your personal traces, will keep up to 50 traces
 
 ## Preview
-<img width="700" alt="preview" src="https://i.imgur.com/IKOZy1k.png">
+<img width="700" alt="preview" src="https://i.imgur.com/g9sg3K6.png">
 
 ## To Install
 
@@ -29,3 +28,4 @@ Will keep up to 50 traces
 ## To Update
 1. Go back to about:debugging#/runtime/this-firefox or chrome://extensions/
 2. Click reload
+3. May need to click *Clear Traces* if the badge count doesn't match the transactions within
