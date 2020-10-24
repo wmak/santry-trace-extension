@@ -14,7 +14,7 @@ Will keep up to 50 traces
 4. Right click the icon in the browser, click Manage Extension
 5. Go to Preferences
 6. Enter your specific options, for example:
-<img width="700" alt="firefox-options" src="https://i.imgur.com/TtDHtnK.png">
+<img width="700" alt="firefox-options" src="https://i.imgur.com/3KuVvlH.png">
 
 ### For Chrome
 1. Go to chrome://extensions/
