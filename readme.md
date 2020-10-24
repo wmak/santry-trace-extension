@@ -27,5 +27,5 @@ Will keep up to 50 traces
 <img width="700" alt="chrome-options" src="https://i.imgur.com/2uj4EMC.png">
 
 ## To Update
-1. Go back to about:debugging#/runtime/this-firefox
+1. Go back to about:debugging#/runtime/this-firefox or chrome://extensions/
 2. Click reload
