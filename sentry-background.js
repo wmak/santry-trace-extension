@@ -8,7 +8,6 @@ try {
   localget = (keys, promise) => browser.storage.local.get(keys, promise);
 }
 try {
-  browser.storage.local.set({transactions: []});
   browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
 } catch (ex) {
 }
@@ -23,7 +22,13 @@ function updateBadge(length) {
     browser.browserAction.setBadgeText({text: ""});
   }
 }
-localget(["transactions"], (data) => updateBadge(data.transactions.length));
+localget(["transactions"], (data) => function(data) {
+  if (data.transactions === undefined) {
+    data.transactions = [];
+  }
+  updateBadge(data.transactions.length)
+  browser.storage.local.set(data);
+});
 browser.runtime.onMessage.addListener((length, sender) => updateBadge(length))
 
 function listener(event) {
@@ -33,7 +38,7 @@ function listener(event) {
   let newTraceId = sentryEvent?.contexts?.trace?.trace_id;
   localget(["transactions", "prodRegex", "stagingRegex"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingregex ? url.match(new RegExp(data.stagingRegex)) : false);
+    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
     sentryEvent.isLocal = url.match(new RegExp(DEV_REGEX));
 
     if (sentryEvent.isValid || sentryEvent.isLocal) {
