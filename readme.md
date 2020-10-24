@@ -18,11 +18,12 @@ Will keep up to 50 traces
 
 ### For Chrome
 1. Go to chrome://extensions/
-2. Click *Load Unpacked*
-3. Select the `manifest.json` from this repo
-4. Go to Details
-5. Click *Extension Options*
-6. Enter your specific options, for example:
+2. Enable Developer Mode by clicking the toggle switch next to Developer mode.
+3. Click *Load Unpacked*
+4. Select the `manifest.json` from this repo
+5. Go to Details
+6. Click *Extension Options*
+7. Enter your specific options, for example:
 <img width="700" alt="chrome-options" src="https://i.imgur.com/2uj4EMC.png">
 
 ## To Update
