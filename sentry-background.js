@@ -22,7 +22,7 @@ function updateBadge(length) {
     browser.browserAction.setBadgeText({text: ""});
   }
 }
-localget(["transactions"], (data) => function(data) {
+localget("transactions", function(data) {
   if (data.transactions === undefined) {
     data.transactions = [];
   }
