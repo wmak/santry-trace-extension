@@ -1,9 +1,11 @@
 try {
   browser;
   localget = (keys, promise) => browser.storage.local.get(keys).then(promise);
+  localset = (keys, promise) => browser.storage.local.set(keys).then(promise);
 } catch (ex) {
   browser = chrome;
   localget = (keys, promise) => browser.storage.local.get(keys, promise);
+  localset = (keys, promise) => browser.storage.local.set(keys, promise);
 }
 ENV = {
   dev: {
@@ -23,6 +25,10 @@ function onOpen() {
   localget(["transactions", "slug"], function(data) {
     const content = document.getElementById("popup-content");
     content.innerHTML = "";
+    if (data.transactions === undefined) {
+      data.transactions = [];
+      localset(data);
+    }
     for (const element of data.transactions) {
       const env = element.environment;
       const timestamp = element.timestamp * 1000.0;
@@ -36,7 +42,7 @@ function onOpen() {
 }
 onOpen();
 document.getElementById("clear-traces").onclick = function clearTrace() {
-  browser.storage.local.set({"transactions": []}).then(function () {
+  localset({"transactions": []}, function () {
     browser.runtime.sendMessage(0);
     onOpen();
   });
