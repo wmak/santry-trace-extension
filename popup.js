@@ -36,7 +36,7 @@ function onOpen() {
       const end = encodeURIComponent(formatDateParam(new Date(timestamp + (5*60*1000))));
       const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
       const url = `${root_url}organizations/${data.slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Transactions+by+Volume&query=trace%3A${element.contexts.trace.trace_id}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
-      content.innerHTML += `<tr><td><div><a href="${url}">${element.transaction}</a></div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toTimeString()}</div></td></tr>`;
+      content.innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toTimeString()}</div></td></tr>`;
     }
   });
 }
