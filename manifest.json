@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sentry Trace",
-  "version": "1.0",
+  "version": "1.0.1",
 
   "description": "Easily get to your sentry events",
 
@@ -26,5 +26,11 @@
 
   "options_ui": {
     "page": "options.html"
+  }, 
+
+  "browser_specific_settings": {
+    "gecko": {
+      "update_url": "https://raw.githubusercontent.com/wmak/santry-trace-extension/master/update.json"
+    }
   }
 }
