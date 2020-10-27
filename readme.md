@@ -7,13 +7,15 @@ A little addon that tracks all your personal traces, will keep up to 50 traces
 ## To Install
 
 ### For Firefox
-1. Go to about:debugging#/runtime/this-firefox
-2. Click *Load Temporary Add-on*
-3. Select the `manifest.json` from this repo
-4. Right click the icon in the browser, click Manage Extension
-5. Go to Preferences
-6. Enter your specific options, for example:
+1. Go to the [latest release](https://github.com/wmak/santry-trace-extension/releases/latest)
+2. Click `firefox.xpi`
+3. Right click the icon in the browser, click Manage Extension
+4. Go to Preferences
+5. Enter your specific options, for example:
 <img width="700" alt="firefox-options" src="https://i.imgur.com/3KuVvlH.png">
+
+#### To Update Firefox
+- Updates are automatic.
 
 ### For Chrome
 1. Go to chrome://extensions/
@@ -25,7 +27,7 @@ A little addon that tracks all your personal traces, will keep up to 50 traces
 7. Enter your specific options, for example:
 <img width="700" alt="chrome-options" src="https://i.imgur.com/2uj4EMC.png">
 
-## To Update
-1. Go back to about:debugging#/runtime/this-firefox or chrome://extensions/
+#### To Update Chrome
+1. Go back to chrome://extensions/
 2. Click reload
 3. May need to click *Clear Traces* if the badge count doesn't match the transactions within
