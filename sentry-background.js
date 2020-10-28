@@ -47,7 +47,7 @@ function listener(event) {
         if (data.transactions === undefined) {
           data.transactions = [];
         }
-        if (data.transactions.length == 50) {
+        if (data.transactions.length == 999) {
           data.transactions.pop();
         }
         data.transactions.unshift(sentryEvent)
