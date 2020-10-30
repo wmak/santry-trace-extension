@@ -23,10 +23,6 @@ function pad(value) {
   return String(value).padStart(2, 0);
 };
 
-function formatDateParam(date) {
-  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:00`
-}
-
 function enableButton(identifier) {
   document.getElementById(identifier).classList.remove('disabled');
   document.getElementById(identifier).classList.add('enabled');
@@ -63,11 +59,11 @@ function loadContent() {
     for (const element of data.transactions.slice(10 * page, 10 * (page + 1))) {
       const env = element.environment;
       const timestamp = element.timestamp * 1000.0;
-      const start = encodeURIComponent(formatDateParam(new Date(timestamp - (5*60*1000))));
-      const end = encodeURIComponent(formatDateParam(new Date(timestamp + (5*60*1000))));
+      const start = encodeURIComponent((new Date(timestamp - (5*60*1000))).toUTCString());
+      const end = encodeURIComponent((new Date(timestamp + (5*60*1000))).toUTCString());
       const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
       const url = `${root_url}organizations/${data.slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.contexts.trace.trace_id}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
-      content.innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toTimeString()}</div></td></tr>`;
+      content.innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
     }
   });
 }
