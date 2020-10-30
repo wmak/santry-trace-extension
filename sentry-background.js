@@ -1,3 +1,10 @@
+Sentry.init({
+  dsn: 'https://91b83206aef54757af38f2e6a391f17f@o349958.ingest.sentry.io/5498617',
+  integrations: [
+    new Sentry.Integrations.BrowserTracing(),
+  ],
+  tracesSampleRate: 1.0,
+});
 try {
   browser;
   localget = (keys, promise) => browser.storage.local.get(keys).then(promise);
@@ -7,10 +14,7 @@ try {
   browser = chrome;
   localget = (keys, promise) => browser.storage.local.get(keys, promise);
 }
-try {
-  browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
-} catch (ex) {
-}
+browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
 // Specifically for dev
 const DEV_REGEX = /.*dev\.getsentry\.net.*/;
 let traceId = null;

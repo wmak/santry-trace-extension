@@ -19,7 +19,7 @@
   },
 
   "background": {
-    "scripts": ["sentry-background.js"]
+    "scripts": ["sentry.min.js", "tracing.min.js", "sentry-background.js"]
   },
 
   "permissions": ["storage", "webRequest", "*://*/*"],
