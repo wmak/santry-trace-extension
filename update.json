@@ -17,6 +17,10 @@
         {
           "version": "1.0.4",
           "update_link": "https://github.com/wmak/santry-trace-extension/releases/download/1.0.4/firefox.xpi"
+        },
+        {
+          "version": "1.0.5",
+          "update_link": "https://github.com/wmak/santry-trace-extension/releases/download/1.0.5/firefox.xpi"
         }
       ]
     }
