@@ -19,6 +19,7 @@ browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
 // Specifically for dev
 const DEV_REGEX = /.*dev\.getsentry\.net.*/;
 let traceId = null;
+let errorId = null;
 let transactions = [];
 
 function updateBadge(length, transaction) {
@@ -41,7 +42,7 @@ browser.runtime.onMessage.addListener((length, sender) => {
   transactions = [];
 })
 
-function listener(event) {
+function transactionListener(event) {
   const decoder = new TextDecoder("utf-8");
   const rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
   const sentryEvent = JSON.parse(rawBody.split("\n", 3)[2]);
@@ -62,8 +63,35 @@ function listener(event) {
   });
 }
 
+function errorListener(event) {
+  const decoder = new TextDecoder("utf-8");
+  const rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
+  const sentryEvent = JSON.parse(rawBody);
+  let newEventId = sentryEvent?.event_id;
+  localget(["prodRegex", "stagingRegex"], function(data) {
+    const url = sentryEvent?.request?.url || "";
+    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
+    sentryEvent.isLocal = url.match(new RegExp(DEV_REGEX));
+
+    if (sentryEvent.isValid || sentryEvent.isLocal) {
+      if (newEventId !== errorId) {
+        errorId = newEventId;
+        transactions.unshift(sentryEvent)
+        browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
+        updateBadge(transactions.length);
+      }
+    }
+  });
+}
+
 browser.webRequest.onBeforeRequest.addListener(
-  listener,
+  transactionListener,
   {urls: ["*://*.sentry.io/*/envelope/*", "*://dev.getsentry.net/*/envelope/*"]},
+  ["requestBody"]
+);
+
+browser.webRequest.onBeforeRequest.addListener(
+  errorListener,
+  {urls: ["*://*.sentry.io/*/store/*", "*://dev.getsentry.net/*/store/*"]},
   ["requestBody"]
 );
