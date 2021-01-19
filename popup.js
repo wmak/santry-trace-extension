@@ -65,8 +65,15 @@ function loadContent(transactions, slug) {
     const start = encodeURIComponent((new Date(timestamp - (5*60*1000))).toUTCString());
     const end = encodeURIComponent((new Date(timestamp + (5*60*1000))).toUTCString());
     const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
-    const url = `${root_url}organizations/${slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.contexts.trace.trace_id}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
-    innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
+    let url;
+    console.log(element);
+    if (element?.exception) {
+      url = `${root_url}organizations/${slug}/issues/?query=${element.event_id}`
+      innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element?.exception?.values[0]?.type}</a></div></td><td><div>Error</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
+    } else {
+      url = `${root_url}organizations/${slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.contexts.trace.trace_id}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
+      innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>Transaction</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
+    }
   }
   content.innerHTML = innerHTML;
 }

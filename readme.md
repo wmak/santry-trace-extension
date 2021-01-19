@@ -1,5 +1,5 @@
 # Santry-trace-extension
-A little addon that tracks all your personal traces, will keep up to 999 traces
+A little addon that tracks all your personal traces, will keep up to 99 traces
 
 ## Preview
 <img width="700" alt="preview" src="https://i.imgur.com/g9sg3K6.png">
