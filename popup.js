@@ -1,11 +1,3 @@
-Sentry.init({
-  dsn: 'https://91b83206aef54757af38f2e6a391f17f@o349958.ingest.sentry.io/5498617',
-  integrations: [
-    new Sentry.Integrations.BrowserTracing(),
-  ],
-  tracesSampleRate: 1.0,
-  release: "santry-trace-extension@" + browser.runtime.getManifest().version,
-});
 let transactions = [];
 let slug = '';
 try {
@@ -17,6 +9,14 @@ try {
   localget = (keys, promise) => browser.storage.local.get(keys, promise);
   localset = (keys, promise) => browser.storage.local.set(keys, promise);
 }
+Sentry.init({
+  dsn: 'https://91b83206aef54757af38f2e6a391f17f@o349958.ingest.sentry.io/5498617',
+  integrations: [
+    new Sentry.Integrations.BrowserTracing(),
+  ],
+  tracesSampleRate: 1.0,
+  release: "santry-trace-extension@" + browser.runtime.getManifest().version,
+});
 
 let page = 0;
 
@@ -66,7 +66,6 @@ function loadContent(transactions, slug) {
     const end = encodeURIComponent((new Date(timestamp + (5*60*1000))).toUTCString());
     const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
     let url;
-    console.log(element);
     if (element?.exception) {
       url = `${root_url}organizations/${slug}/issues/?query=${element.event_id}`
       innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element?.exception?.values[0]?.type}</a></div></td><td><div>Error</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
