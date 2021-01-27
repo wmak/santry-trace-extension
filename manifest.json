@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sentry Trace",
-  "version": "1.0.6a",
+  "version": "1.0.6",
 
   "description": "Easily get to your sentry events",
 
