@@ -96,7 +96,7 @@ function onOpen() {
       }
       getSpan.setTag("transactions.length", data.recentTransactions.length);
       getSpan.finish()
-      loadContent(data.recentTransactions, data.slug);
+      loadContent(data.recentTransactions, slug);
       transaction.finish()
     });
     localget(["transactions"], function(data) {
