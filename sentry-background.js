@@ -42,6 +42,10 @@ browser.runtime.onMessage.addListener((length, sender) => {
   transactions = [];
 })
 
+function isValidUrl(url, data) {
+  return (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
+}
+
 function transactionListener(event) {
   const decoder = new TextDecoder("utf-8");
   const rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
@@ -49,13 +53,22 @@ function transactionListener(event) {
   let newTraceId = sentryEvent?.contexts?.trace?.trace_id;
   localget(["prodRegex", "stagingRegex"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
-    sentryEvent.isLocal = url.match(new RegExp(DEV_REGEX));
+    const isValid = isValidUrl(url, data);
+    const isLocal = url.match(new RegExp(DEV_REGEX));
 
-    if (sentryEvent.isValid || sentryEvent.isLocal) {
+    if (isValid || isLocal) {
       if (newTraceId !== traceId) {
+        const transactionEvent = {
+          environment: sentryEvent.environment,
+          event_id: sentryEvent.event_id,
+          isValid: isValid,
+          isLocal: isLocal,
+          timestamp: sentryEvent.timestamp,
+          trace_id: newTraceId,
+          transaction: sentryEvent.transaction,
+        }
         traceId = newTraceId;
-        transactions.unshift(sentryEvent)
+        transactions.unshift(transactionEvent)
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
         updateBadge(transactions.length);
       }
@@ -70,13 +83,22 @@ function errorListener(event) {
   let newEventId = sentryEvent?.event_id;
   localget(["prodRegex", "stagingRegex"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    sentryEvent.isValid = (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
-    sentryEvent.isLocal = url.match(new RegExp(DEV_REGEX));
+    const isValid = isValidUrl(url, data);
+    const isLocal = url.match(new RegExp(DEV_REGEX));
 
-    if (sentryEvent.isValid || sentryEvent.isLocal) {
+    if (isValid || isLocal) {
       if (newEventId !== errorId) {
+        const errorEvent = {
+          environment: sentryEvent.environment,
+          event_id: newEventId,
+          isLocal: isLocal,
+          isValid: isValid,
+          timestamp: sentryEvent.timestamp,
+          exception: sentryEvent.exception,
+          type: sentryEvent?.exception?.values[0]?.type,
+        }
         errorId = newEventId;
-        transactions.unshift(sentryEvent)
+        transactions.unshift(errorEvent)
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
         updateBadge(transactions.length);
       }

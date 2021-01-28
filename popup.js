@@ -70,7 +70,7 @@ function loadContent(transactions, slug) {
       url = `${root_url}organizations/${slug}/issues/?query=${element.event_id}`
       innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element?.exception?.values[0]?.type}</a></div></td><td><div>Error</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
     } else {
-      url = `${root_url}organizations/${slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.contexts.trace.trace_id}&sort=-timestamp&start=${start}&end=${end}&interval=5s`
+      url = `${root_url}organizations/${slug}/discover/results/?field=transaction&field=event.type&field=project&field=transaction.duration&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.trace_id}&sort=-timestamp&start=${start}&end=${end}`
       innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>Transaction</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
     }
   }
