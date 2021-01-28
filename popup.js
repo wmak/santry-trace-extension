@@ -80,15 +80,23 @@ function loadContent(transactions, slug) {
 function onOpen() {
   const transaction = Sentry.startTransaction({ name: "loadContent" , description: "onOpen"});
   const getSpan = transaction.startChild({ op: "localget" }); 
-  localget(["slug"], function(slugData) {
-    slug = slugData.slug;
+  localget(["slug", "prodRegex", "stagingRegex"], function(data) {
+    if (!data.slug || (!data.prodRegex && !data.stagingRegex)) {
+      document.getElementById("body").classList.add("hidden")
+      document.getElementById("warning").classList.remove("hidden")
+      browser.runtime.openOptionsPage();
+      return;
+    }
+    document.getElementById("body").classList.remove("hidden")
+    document.getElementById("warning").classList.add("hidden")
+    slug = data.slug;
     localget(["recentTransactions"], function(data) {
       if (data.recentTransactions === undefined) {
         data.recentTransactions = [];
       }
       getSpan.setTag("transactions.length", data.recentTransactions.length);
       getSpan.finish()
-      loadContent(data.recentTransactions, slugData.slug);
+      loadContent(data.recentTransactions, data.slug);
       transaction.finish()
     });
     localget(["transactions"], function(data) {

@@ -6,38 +6,43 @@
     <link rel="stylesheet" href="popup.css"/>
   </head>
 
-<body>
-  <div class="button-container">
-    Events
-    <button id="clear-traces"><span>Clear Events</span></button>
-  </div>
-  <div class="container">
-    <table style="grid-template-columns: minmax(90px, auto) minmax(90px, auto) minmax(90px, auto) minmax(90px, auto);">
-      <thead>
-        <tr>
-          <th>Title</th>
-	  <th>Event Type</th>
-          <th>Environment</th>
-          <th>Timestamp</th>
-        </tr>
-      </thead>
-      <tbody id="popup-content">
-      </tbody>
-    </table>
-  </div>
-  <div class="PaginationContainer">
-    <div class="ButtonGrid">
-      <button class="StyledButton disabled" id="prevButton">
-        <span class="Icon"><</span>
-      </button>
-      <button class="StyledButton disabled" id="nextButton">
-        <span class="Icon">></span>
-      </button>
+  <body>
+    <div id="body">
+      <div class="button-container">
+        Events
+        <button id="clear-traces"><span>Clear Events</span></button>
+      </div>
+      <div class="container">
+        <table style="grid-template-columns: minmax(90px, auto) minmax(90px, auto) minmax(90px, auto) minmax(90px, auto);">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Event Type</th>
+              <th>Environment</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="popup-content">
+          </tbody>
+        </table>
+      </div>
+      <div class="PaginationContainer">
+        <div class="ButtonGrid">
+          <button class="StyledButton disabled" id="prevButton">
+            <span class="Icon"><</span>
+          </button>
+          <button class="StyledButton disabled" id="nextButton">
+            <span class="Icon">></span>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-  <script src="sentry.min.js"></script>
-  <script src="tracing.min.js"></script>
-  <script src="popup.js"></script>
-</body>
+    <div id="warning">
+       Please set at least one URL regex and your Organization Slug
+    </div>
+    <script src="sentry.min.js"></script>
+    <script src="tracing.min.js"></script>
+    <script src="popup.js"></script>
+  </body>
 
 </html>

@@ -23,22 +23,36 @@ let errorId = null;
 let transactions = [];
 
 function updateBadge(length, transaction) {
-  if (length > 0) {
-    browser.browserAction.setBadgeText({text: length.toString()});
-  } else {
-    browser.browserAction.setBadgeText({text: ""});
+  console.log(length);
+  if (length == -1) {
+    fetchAndUpdateBadge();
   }
+  localget(["prodRegex", "stagingRegex", "slug"], function(data) {
+    if (!data.slug || (!data.prodRegex && !data.stagingRegex)) {
+      browser.browserAction.setBadgeText({text: "!!!"});
+    } else {
+      if (length > 0) {
+        browser.browserAction.setBadgeText({text: length.toString()});
+      } else {
+        browser.browserAction.setBadgeText({text: ""});
+      }
+    }
+  });
 }
-localget("transactions", function(data) {
-  if (data.transactions === undefined) {
-    data.transactions = [];
-  }
-  transactions = data.transactions;
-  updateBadge(data.transactions.length)
-  browser.storage.local.set(data);
-});
+
+function fetchAndUpdateBadge() {
+  localget("transactions", function(data) {
+    if (data.transactions === undefined) {
+      data.transactions = [];
+    }
+    transactions = data.transactions;
+    updateBadge(data.transactions.length)
+    browser.storage.local.set(data);
+  });
+}
+fetchAndUpdateBadge();
 browser.runtime.onMessage.addListener((length, sender) => {
-  updateBadge(0);
+  updateBadge(length);
   transactions = [];
 })
 
