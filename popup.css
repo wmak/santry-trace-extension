@@ -42,7 +42,8 @@ tbody tr td {
   border-top: 1px solid #C6BECF;
   padding: 8px 0 8px 20px;
   min-width: 0;
-  min-height: 40px;
+  max-height: 40px;
+  display: block;
   background-color: #ffffff;
   font-size: 14px;
 }
