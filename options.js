@@ -18,12 +18,15 @@ const prodRegex = document.getElementById("prodRegex");
 const stagingRegex = document.getElementById("stagingRegex");
 slug.addEventListener('change', (event) => {
   browser.storage.local.set({"slug": event.target.value})
+  browser.runtime.sendMessage(-1);
 });
 prodRegex.addEventListener('change', (event) => {
   browser.storage.local.set({"prodRegex": event.target.value})
+  browser.runtime.sendMessage(-1);
 });
 stagingRegex.addEventListener('change', (event) => {
   browser.storage.local.set({"stagingRegex": event.target.value})
+  browser.runtime.sendMessage(-1);
 });
 localget(["slug", "prodRegex", "stagingRegex"], function(data) {
   slug.value = data?.slug || null;

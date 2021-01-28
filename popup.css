@@ -11,7 +11,6 @@ table {
   border-radius: 4px;
   margin: 0px;
   z-index: 5;
-  overflow-x: scroll;
 }
 
 thead, tbody, tr {
@@ -159,4 +158,18 @@ button span {
   a {
     color: #A396DA;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+#warning {
+  margin: 0px 0px 20px;
+  padding: 12px 16px;
+  font-size: 15px;
+  box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px;
+  border-radius: 4px;
+  background: rgba(210, 223, 247, 0.3) none repeat scroll 0% 0%;
+  border: 1px solid rgb(146, 168, 234);
 }
