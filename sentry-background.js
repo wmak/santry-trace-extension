@@ -1,10 +1,12 @@
 try {
   browser;
+  cookiesGet = (details, promise) => browser.cookies.get(details).then(promise);
   localget = (keys, promise) => browser.storage.local.get(keys).then(promise);
   // Not supported in chrome
   browser.browserAction.setBadgeTextColor({color: "#ffffff"});
 } catch (ex) {
   browser = chrome;
+  cookiesGet = (details, promise) => browser.cookies.get(details, promise);
   localget = (keys, promise) => browser.storage.local.get(keys, promise);
 }
 Sentry.init({
@@ -22,23 +24,29 @@ let traceId = null;
 let errorId = null;
 let transactions = [];
 
-function updateBadge(length, transaction) {
-  console.log(length);
+function updateBadge(length) {
   if (length == -1) {
     fetchAndUpdateBadge();
+  } else if (length > 0) {
+    browser.browserAction.setBadgeText({text: `${length}`});
+  } else {
+    browser.browserAction.setBadgeText({text: ""});
   }
-  localget(["prodRegex", "stagingRegex", "slug"], function(data) {
-    if (!data.slug || (!data.prodRegex && !data.stagingRegex)) {
-      browser.browserAction.setBadgeText({text: "!!!"});
-    } else {
-      if (length > 0) {
-        browser.browserAction.setBadgeText({text: length.toString()});
-      } else {
-        browser.browserAction.setBadgeText({text: ""});
-      }
-    }
-  });
 }
+
+function getProjects() {
+  cookiesGet({name: "session", url: "https://sentry.io"}, res => {
+    document.cookie = `session=${res.value}`;
+    let organizationMap = {};
+    fetch("https://sentry.io/api/0/projects/").then(res => {res.json().then(data => {
+      data.forEach(project => {
+        organizationMap[project.id] = project.organization.name.toLowerCase();
+      });
+      browser.storage.local.set({"organizationMap": organizationMap});
+    })});
+  })
+}
+getProjects();
 
 function fetchAndUpdateBadge() {
   localget("transactions", function(data) {
@@ -51,7 +59,7 @@ function fetchAndUpdateBadge() {
   });
 }
 fetchAndUpdateBadge();
-browser.runtime.onMessage.addListener((length, sender) => {
+browser.runtime.onMessage.addListener((length) => {
   updateBadge(length);
   transactions = [];
 })
@@ -60,14 +68,35 @@ function isValidUrl(url, data) {
   return (data.prodRegex ? url.match(new RegExp(data.prodRegex)) : false) || (data.stagingRegex ? url.match(new RegExp(data.stagingRegex)) : false);
 }
 
-function transactionListener(event) {
+function getProjectFromURL(event) {
+  const projects = new URL(event.url).pathname.match(/(\d+)/g);
+  if (projects.length != 1) {
+    // error
+    return -1
+  }
+  const project = projects[0];
+  if (project === "5498617") {
+    // Don't listen to this extension's events
+    return -1
+  }
+  return project
+}
+
+function decodeBody(event) {
   const decoder = new TextDecoder("utf-8");
-  const rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
-  const sentryEvent = JSON.parse(rawBody.split("\n", 3)[2]);
+  return decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
+}
+
+function transactionListener(event) {
+  const project = getProjectFromURL(event);
+  if (project === -1) {
+    return
+  }
+  const sentryEvent = JSON.parse(decodeBody(event).split("\n", 3)[2]);
   let newTraceId = sentryEvent?.contexts?.trace?.trace_id;
-  localget(["prodRegex", "stagingRegex"], function(data) {
+  localget(["organizationMap"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    const isValid = isValidUrl(url, data);
+    const isValid = data.organizationMap[project] && newTraceId;
     const isLocal = url.match(new RegExp(DEV_REGEX));
 
     if (isValid || isLocal) {
@@ -80,6 +109,7 @@ function transactionListener(event) {
           timestamp: sentryEvent.timestamp,
           trace_id: newTraceId,
           transaction: sentryEvent.transaction,
+          organization: data.organizationMap[project],
         }
         traceId = newTraceId;
         transactions.unshift(transactionEvent)
@@ -91,13 +121,15 @@ function transactionListener(event) {
 }
 
 function errorListener(event) {
-  const decoder = new TextDecoder("utf-8");
-  const rawBody = decoder.decode(new Uint8Array(event.requestBody.raw[0].bytes));
-  const sentryEvent = JSON.parse(rawBody);
+  const project = getProjectFromURL(event);
+  if (project === -1) {
+    return
+  }
+  const sentryEvent = JSON.parse(decodeBody(event));
   let newEventId = sentryEvent?.event_id;
-  localget(["prodRegex", "stagingRegex"], function(data) {
+  localget(["organizationMap"], function(data) {
     const url = sentryEvent?.request?.url || "";
-    const isValid = isValidUrl(url, data);
+    const isValid = data.organizationMap[project] && newEventId;
     const isLocal = url.match(new RegExp(DEV_REGEX));
 
     if (isValid || isLocal) {
@@ -110,6 +142,7 @@ function errorListener(event) {
           timestamp: sentryEvent.timestamp,
           exception: sentryEvent.exception,
           type: sentryEvent?.exception?.values[0]?.type,
+          organization: data.organizationMap[project],
         }
         errorId = newEventId;
         transactions.unshift(errorEvent)
