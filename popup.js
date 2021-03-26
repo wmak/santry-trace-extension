@@ -67,10 +67,10 @@ function loadContent(transactions) {
     const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
     let url;
     if (element?.exception) {
-      url = `${root_url}organizations/${element.organization}/discover/results/?field=title&field=issue&field=project&field=http.url&name=Error+event&query=id%3A${element.event_id}&sort=-title&statsPeriod=24h&start=${start}&end=${end}`
+      url = `${root_url}organizations/${element.organization}/discover/${element.project}:${element.event_id}/`
       innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element?.exception?.values[0]?.type}</a></div></td><td><div>Error</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
     } else {
-      url = `${root_url}organizations/${element.organization}/discover/results/?field=transaction&field=event.type&field=project&field=timestamp&environment=${element.environment}&name=Traced+Transactions&query=trace%3A${element.trace_id}&sort=-timestamp&start=${start}&end=${end}`
+      url = `${root_url}organizations/${element.organization}/performance/trace/${element.trace_id}/?start=${start}&end=${end}`
       innerHTML += `<tr><td><div><a href="${url}" target="_blank">${element.transaction}</a></div></td><td><div>Transaction</div></td><td><div>${env}</div></td><td><div>${new Date(timestamp).toLocaleTimeString()}</div></td></tr>`;
     }
   }

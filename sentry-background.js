@@ -38,11 +38,14 @@ function getProjects() {
   cookiesGet({name: "session", url: "https://sentry.io"}, res => {
     document.cookie = `session=${res.value}`;
     let organizationMap = {};
+    let projectMap = {};
     fetch("https://sentry.io/api/0/projects/").then(res => {res.json().then(data => {
       data.forEach(project => {
         organizationMap[project.id] = project.organization.name.toLowerCase();
+        projectMap[project.id] = project.slug.toLowerCase();
       });
       browser.storage.local.set({"organizationMap": organizationMap});
+      browser.storage.local.set({"projectMap": projectMap});
     })});
   })
 }
@@ -127,7 +130,7 @@ function errorListener(event) {
   }
   const sentryEvent = JSON.parse(decodeBody(event));
   let newEventId = sentryEvent?.event_id;
-  localget(["organizationMap"], function(data) {
+  localget(["organizationMap", "projectMap"], function(data) {
     const url = sentryEvent?.request?.url || "";
     const isValid = data.organizationMap[project] && newEventId;
     const isLocal = url.match(new RegExp(DEV_REGEX));
@@ -143,6 +146,7 @@ function errorListener(event) {
           exception: sentryEvent.exception,
           type: sentryEvent?.exception?.values[0]?.type,
           organization: data.organizationMap[project],
+          project: data.projectMap[project],
         }
         errorId = newEventId;
         transactions.unshift(errorEvent)
