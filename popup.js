@@ -64,7 +64,7 @@ function loadContent(transactions) {
     const timestamp = element.timestamp * 1000.0;
     const start = encodeURIComponent((new Date(timestamp - (5*60*1000))).toISOString());
     const end = encodeURIComponent((new Date(timestamp + (5*60*1000))).toISOString());
-    const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
+    const root_url = element.isLocal ? ENV.dev.root_url : ENV.valid.root_url
     let url;
     if (element?.exception) {
       url = `${root_url}organizations/${element.organization}/discover/${element.project}:${element.event_id}/`
