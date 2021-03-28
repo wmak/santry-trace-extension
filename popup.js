@@ -62,8 +62,8 @@ function loadContent(transactions) {
   for (const element of transactions.slice(10 * page, 10 * (page + 1))) {
     const env = element.environment;
     const timestamp = element.timestamp * 1000.0;
-    const start = encodeURIComponent((new Date(timestamp - (5*60*1000))).toISOString());
-    const end = encodeURIComponent((new Date(timestamp + (5*60*1000))).toISOString());
+    const start = encodeURIComponent((new Date(timestamp - (24*60*60*1000))).toISOString());
+    const end = encodeURIComponent((new Date(timestamp + (60*60*1000))).toISOString());
     const root_url = element.isValid ? ENV.valid.root_url : ENV.dev.root_url
     let url;
     if (element?.exception) {
@@ -98,7 +98,7 @@ onOpen();
 document.getElementById("clear-traces").onclick = function clearTrace() {
   page = 0;
   localset({"transactions": [], "recentTransactions": []}, function () {
-    browser.runtime.sendMessage(0);
+    browser.runtime.sendMessage({"length": 0});
     onOpen();
   });
 }

@@ -17,7 +17,8 @@ Sentry.init({
   tracesSampleRate: 1.0,
   release: "santry-trace-extension@" + browser.runtime.getManifest().version,
 });
-browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
+const DEFAULT_COLOUR = "#524a7e"
+browser.browserAction.setBadgeBackgroundColor({color: DEFAULT_COLOUR});
 // Specifically for dev
 const DEV_REGEX = /.*dev\.getsentry\.net.*/;
 let traceId = null;
@@ -29,6 +30,11 @@ function updateBadge(length) {
     fetchAndUpdateBadge();
   } else if (length > 0) {
     browser.browserAction.setBadgeText({text: `${length}`});
+    browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
+    window.setTimeout(
+      () => browser.browserAction.setBadgeBackgroundColor({color: DEFAULT_COLOUR}),
+      1000,
+    );
   } else {
     browser.browserAction.setBadgeText({text: ""});
   }
@@ -41,11 +47,12 @@ function getProjects() {
     let projectMap = {};
     fetch("https://sentry.io/api/0/projects/").then(res => {res.json().then(data => {
       data.forEach(project => {
-        organizationMap[project.id] = project.organization.name.toLowerCase();
+        organizationMap[project.id] = project.organization.slug.toLowerCase();
         projectMap[project.id] = project.slug.toLowerCase();
       });
       browser.storage.local.set({"organizationMap": organizationMap});
       browser.storage.local.set({"projectMap": projectMap});
+      browser.runtime.sendMessage({"projectLoaded": true});
     })});
   })
 }
@@ -62,8 +69,10 @@ function fetchAndUpdateBadge() {
   });
 }
 fetchAndUpdateBadge();
-browser.runtime.onMessage.addListener((length) => {
-  updateBadge(length);
+
+browser.runtime.onMessage.addListener((data) => {
+  if (data.hasOwnProperty("length")) updateBadge(length);
+  if (data.hasOwnProperty("refresh")) getProjects();
   transactions = [];
 })
 

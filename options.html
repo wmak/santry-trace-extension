@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="santry.css"/>
+  </head>
+
+  <body>
+    <div id="options-body" class="Panel">
+      <div class="PanelHeader">
+        Santry Trace Extension
+      </div>
+      <div class="Flexbox">
+        <div class="FieldWrapper">
+          <label class="FieldDescription" for="prod">
+            <div class="FieldLabel">
+              <span>Refresh projects being monitored</span>
+            </div>
+            <div class="FieldHelp">
+              Your currently authenticated Sentry account is used to determine which projects to monitor
+            </div>
+          </label>
+          <div class="FieldControl">
+            <button id="refresh-auth"><span>Refresh Auth</span></button>
+          </div>
+        </div>
+      <div class="container">
+        <table style="grid-template-columns: minmax(90px, auto) minmax(90px, auto);">
+          <thead>
+            <tr>
+              <th>Organization</th>
+              <th>Project</th>
+            </tr>
+          </thead>
+          <tbody id="options-content">
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>
+
+    <script src="sentry.min.js"></script>
+    <script src="tracing.min.js"></script>
+    <script src="options.js"></script>
+
+  </body>
+
+</html>
+

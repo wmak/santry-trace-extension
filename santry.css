@@ -1,6 +1,10 @@
-body {
+#popup-body {
   width: 600px;
   padding: 5px;
+}
+
+#options-body {
+  height: 300px;
 }
 
 table {
@@ -139,10 +143,111 @@ button span {
   cursor: pointer;
 }
 
+.hidden {
+  display: none;
+}
+
+#warning {
+  margin: 0px 0px 20px;
+  padding: 12px 16px;
+  font-size: 15px;
+  box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px;
+  border-radius: 4px;
+  background: rgba(210, 223, 247, 0.3) none repeat scroll 0% 0%;
+  border: 1px solid rgb(146, 168, 234);
+}
+
+#refresh-auth {
+  left: 0;
+  position: absolute;
+}
+
+.Panel {
+  border-radius: 4px;
+  border: 1px solid #C6BECF;
+  background: #FFFFFF;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.PanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #776589;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid #C6BECF;
+  background: #FAF9FB none repeat scroll;
+  line-height: 1;
+  position: relative;
+  padding: 16px;
+}
+
+.Flexbox {
+  box-sizing: border-box;
+  margin: 0px;
+  min-width: 0px;
+  display: block;
+}
+
+.FieldWrapper {
+  padding: 16px 0px 16px 16px;
+  align-items: center;
+  display: flex;
+  border-bottom: 1px solid #776589;
+}
+
+.FieldDescription {
+  font-weight: normal;
+  margin-bottom: 0px;
+  width: 50%;
+  padding-right: 10px;
+  flex-shrink: 0;
+}
+
+.FieldLabel {
+  font-size: 16px;
+  display: grid;
+  color: #2B1D38;
+  gap: 4px;
+  grid-template-columns: repeat(2, max-content);
+  line-height: 16px;
+}
+
+.FieldHelp {
+  font-size: 14px;
+  margin-top: 8px;
+  line-height: 1.4;
+  color: #9386A0;
+}
+
+.FieldControl {
+  width: 50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex: 1 1;
+  flex-direction: column;
+  position: relative;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background: #1D1127;
     color: #FFFFFF;
+  }
+
+  .Panel {
+    background: #1D1127;
+    border: 1px solid #776589;
+  }
+
+  .PanelHeader {
+    background-color: #2B1D38;
+    color: #776589;
+    border-bottom: 1px solid #776589;
   }
 
   thead tr th {
@@ -159,18 +264,13 @@ button span {
   a {
     color: #A396DA;
   }
-}
 
-.hidden {
-  display: none;
-}
+  .FieldLabel {
+    color: #FFFFFF;
+  }
 
-#warning {
-  margin: 0px 0px 20px;
-  padding: 12px 16px;
-  font-size: 15px;
-  box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px;
-  border-radius: 4px;
-  background: rgba(210, 223, 247, 0.3) none repeat scroll 0% 0%;
-  border: 1px solid rgb(146, 168, 234);
+  .FieldWrapper {
+    border-bottom: 1px solid #776589;
+  }
+
 }
