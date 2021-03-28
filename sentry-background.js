@@ -25,16 +25,19 @@ let traceId = null;
 let errorId = null;
 let transactions = [];
 
-function updateBadge(length) {
+function updateBadge(length, firstLoad) {
   if (length == -1) {
-    fetchAndUpdateBadge();
+    fetchAndUpdateBadge(firstLoad);
   } else if (length > 0) {
     browser.browserAction.setBadgeText({text: `${length}`});
-    browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
-    window.setTimeout(
-      () => browser.browserAction.setBadgeBackgroundColor({color: DEFAULT_COLOUR}),
-      1000,
-    );
+    if (!firstLoad) {
+      browser.browserAction.setBadgeBackgroundColor({color: "#fa4747"});
+      window.setTimeout(
+        () => browser.browserAction.setBadgeBackgroundColor({color: DEFAULT_COLOUR}),
+        1000,
+      );
+    } else {
+    }
   } else {
     browser.browserAction.setBadgeText({text: ""});
   }
@@ -58,20 +61,20 @@ function getProjects() {
 }
 getProjects();
 
-function fetchAndUpdateBadge() {
+function fetchAndUpdateBadge(firstLoad) {
   localget("transactions", function(data) {
     if (data.transactions === undefined) {
       data.transactions = [];
     }
     transactions = data.transactions;
-    updateBadge(data.transactions.length)
+    updateBadge(data.transactions.length, firstLoad)
     browser.storage.local.set(data);
   });
 }
-fetchAndUpdateBadge();
+fetchAndUpdateBadge(true);
 
 browser.runtime.onMessage.addListener((data) => {
-  if (data.hasOwnProperty("length")) updateBadge(data.length);
+  if (data.hasOwnProperty("length")) updateBadge(data.length, false);
   if (data.hasOwnProperty("refresh")) getProjects();
   transactions = [];
 })
@@ -128,7 +131,7 @@ function transactionListener(event) {
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
         browser.runtime.sendMessage({"length": transactions.length});
         // messages aren't sent back to the current frame
-        updateBadge(transactions.length);
+        updateBadge(transactions.length, false);
       }
     }
   });
@@ -164,7 +167,7 @@ function errorListener(event) {
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
         browser.runtime.sendMessage({"length": transactions.length});
         // messages aren't sent back to the current frame
-        updateBadge(transactions.length);
+        updateBadge(transactions.length, false);
       }
     }
   });
