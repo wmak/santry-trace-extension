@@ -62,8 +62,8 @@ function loadContent(transactions) {
   for (const element of transactions.slice(10 * page, 10 * (page + 1))) {
     const env = element.environment;
     const timestamp = element.timestamp * 1000.0;
-    const start = encodeURIComponent((new Date(timestamp - (24*60*60*1000))).toISOString());
-    const end = encodeURIComponent((new Date(timestamp + (60*60*1000))).toISOString());
+    const start = encodeURIComponent((new Date(timestamp - (48*60*60*1000))).toISOString().split('.')[0]);
+    const end = encodeURIComponent((new Date(timestamp + (48*60*60*1000))).toISOString().split('.')[0]);
     const root_url = element.isLocal ? ENV.dev.root_url : ENV.valid.root_url
     let url;
     if (element?.exception) {
