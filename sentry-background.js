@@ -71,7 +71,7 @@ function fetchAndUpdateBadge() {
 fetchAndUpdateBadge();
 
 browser.runtime.onMessage.addListener((data) => {
-  if (data.hasOwnProperty("length")) updateBadge(length);
+  if (data.hasOwnProperty("length")) updateBadge(data.length);
   if (data.hasOwnProperty("refresh")) getProjects();
   transactions = [];
 })
@@ -126,6 +126,8 @@ function transactionListener(event) {
         traceId = newTraceId;
         transactions.unshift(transactionEvent)
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
+        browser.runtime.sendMessage({"length": transactions.length});
+        // messages aren't sent back to the current frame
         updateBadge(transactions.length);
       }
     }
@@ -160,6 +162,8 @@ function errorListener(event) {
         errorId = newEventId;
         transactions.unshift(errorEvent)
         browser.storage.local.set({"transactions": transactions, "recentTransactions": transactions.slice(0, 10)});
+        browser.runtime.sendMessage({"length": transactions.length});
+        // messages aren't sent back to the current frame
         updateBadge(transactions.length);
       }
     }

@@ -77,8 +77,8 @@ function loadContent(transactions) {
   content.innerHTML = innerHTML;
 }
 
-function onOpen() {
-  const transaction = Sentry.startTransaction({ name: "loadContent" , description: "onOpen"});
+function loadTransactions(open) {
+  const transaction = Sentry.startTransaction({ name: "loadContent" , description: `on${open}`});
   const getSpan = transaction.startChild({ op: "localget" }); 
   localget(["recentTransactions"], function(data) {
     if (data.recentTransactions === undefined) {
@@ -94,12 +94,15 @@ function onOpen() {
     updateButtons();
   });
 }
-onOpen();
+loadTransactions("Open");
+browser.runtime.onMessage.addListener((data) => {
+  if (data.hasOwnProperty("length")) loadTransactions("Reload");
+});
 document.getElementById("clear-traces").onclick = function clearTrace() {
   page = 0;
   localset({"transactions": [], "recentTransactions": []}, function () {
     browser.runtime.sendMessage({"length": 0});
-    onOpen();
+    loadTransactions("Clear");
   });
 }
 document.getElementById("nextButton").onclick = function nextPage() {
