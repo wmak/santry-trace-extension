@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sentry Trace",
-  "version": "1.0.7",
+  "version": "1.0.8",
 
   "description": "Easily get to your sentry events",
 
@@ -19,7 +19,7 @@
   },
 
   "background": {
-    "scripts": ["sentry.min.js", "tracing.min.js", "sentry-background.js"]
+    "scripts": ["bundle.tracing.min.js", "sentry-background.js"]
   },
 
   "permissions": ["cookies", "storage", "webRequest", "*://*/*"],
